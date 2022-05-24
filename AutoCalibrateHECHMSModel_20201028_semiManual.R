@@ -5,10 +5,10 @@
 # only need to install once, run following line if haven't installed already
 # Dependencies:
 
-install.packages("rJava","http://rforge.net")
-install.packages("plyr")
-install.packages("broom")
-install.packages("rjson")
+# install.packages("rJava","http://rforge.net") #needed to download 64 bit java since R is 64 bit
+# install.packages("plyr")
+# install.packages("broom")
+# install.packages("rjson")
 library("reshape2")
 library("stringr")
 library("xts")
@@ -16,8 +16,29 @@ library("rJava")
 library("plyr")
 library("broom")
 library("rjson")
-## devtools::install_github("eheisman/DSS-Rip",args="--no-multiarch")
-##     -Instructions from: http://eaheisman.blogspot.com/2013/04/hec-dss-files-and-r-and-python.html
+
+#installation of dssrip
+#.Rprofile edit .Rprofile in Rstudio and paste this into text file
+file.edit(".Rprofile")
+if(R.Version()$arch=="x86_64"){
+  # use 64-bit .jar and .dll
+  options(dss_override_location="C:\\Program Files (x86)\\HEC-DSSVue-v3.0.00.212\\")
+  Sys.setenv(JAVA_HOME=paste0(options("dss_override_location"), "java"))
+} else {
+  # use 32-bit .jar and .dll (old dssrip, no longer needed)
+}
+
+#options(dss_override_location="C:\\Program Files (x86)\\HEC-DSSVue-v3.0.00.212\\")
+#dss_location = "C:\\Program Files (x86)\\HEC-DSSVue-v3.0.00.212\\" 
+#jars = c("hec", "heclib", "rma", "hecData") 
+#jars = paste0(dss_location, "jar\\", jars, ".jar")
+#libs = "-Djava.library.path=C:\\Program Files (x86)\\HEC-DSSVue-v3.0.00.212\\lib\\"
+#.jinit(classpath=jars, parameters=libs)
+
+#install package
+remotes::install_github("eheisman/dssrip", INSTALL_opts = "--no-multiarch", ref="tidyup")
+#devtools::install_github("eheisman/DSS-Rip",args="--no-multiarch")
+##     -Instructions from: http://eaheisman.blogspot.com/2013/04/hec-dss-files-and-r-and-python.html and https://github.com/eheisman/dssrip 
 ##     -Different dss functions: https://github.com/eheisman/dssrip/commit/f4cf4e3c68d67a1f9a1dc934ace8dbc9a9c9c33a
 #############################################################
 
